@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nadipena Varunkumar — Portfolio
+
+A production-grade personal portfolio built with **Next.js 16**, **Tailwind CSS v4**, **Motion (Framer Motion)**, and **TypeScript**.
+
+## Tech Stack
+
+- **Framework:** Next.js 16.2.6 (App Router, Turbopack)
+- **Styling:** Tailwind CSS v4 (CSS-first config)
+- **Animations:** Motion 12.x (`motion/react`)
+- **Theme:** next-themes (dark/light with system preference)
+- **Icons:** Lucide React + custom SVGs for brand icons
+- **Fonts:** Geist Sans + Instrument Serif via `next/font/google`
+- **Language:** TypeScript (strict mode)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── globals.css          # Design tokens + Tailwind v4 @theme
+│   ├── layout.tsx           # Root layout with SEO, fonts, JSON-LD
+│   ├── page.tsx             # Main page composing all sections
+│   └── providers.tsx        # Client-side ThemeProvider
+├── components/
+│   ├── Navbar.tsx           # Sticky nav with blur backdrop + mobile overlay
+│   ├── Hero.tsx             # Asymmetric hero with avatar + mesh gradient
+│   ├── About.tsx            # Bio + animated stat counters
+│   ├── Skills.tsx           # Bento grid skill cards
+│   ├── Experience.tsx       # Animated vertical timeline
+│   ├── Projects.tsx         # 3D tilt project cards
+│   ├── Certifications.tsx   # Badge cards + achievements
+│   ├── Education.tsx        # Education cards with score pills
+│   ├── Contact.tsx          # Contact links with custom brand SVGs
+│   └── Footer.tsx           # Minimal footer
+└── lib/
+    ├── types.ts             # TypeScript interfaces
+    └── data.ts              # Centralized portfolio data
+```
 
-## Learn More
+## Customization
 
-To learn more about Next.js, take a look at the following resources:
+- **Resume data:** Edit `src/lib/data.ts` — all content is centralized here
+- **Design tokens:** Edit `src/app/globals.css` — CSS variables in `:root` and `.dark`
+- **Profile photo:** Search for `TODO: Replace with <Image` in `Hero.tsx`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
