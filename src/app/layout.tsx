@@ -18,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://varunkumar.dev'),
+  metadataBase: new URL('https://nadipena-varunkumar.vercel.app'),
   title: 'Nadipena Varunkumar — Software Developer & AI Security Practitioner',
   description:
     'Software Developer, AI Security Practitioner, and Bug Bounty Hunter. Building secure systems and shipping intelligent products. Experienced in full-stack development, cloud infrastructure (AWS, Azure), and AI/GenAI security.',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://varunkumar.dev',
+    url: 'https://nadipena-varunkumar.vercel.app',
     title: 'Nadipena Varunkumar — Software Developer & AI Security Practitioner',
     description:
       'Building secure systems and shipping intelligent products. Full-stack developer with expertise in AI/GenAI security.',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: 'Nadipena Varunkumar — Software Developer & AI Security Practitioner',
     description:
       'Building secure systems and shipping intelligent products.',
-    creator: '@varunkumar',
+    creator: '@varunnadipena',
   },
   robots: {
     index: true,
@@ -65,7 +65,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Nadipena Varunkumar',
-  url: 'https://varunkumar.dev',
+  url: 'https://nadipena-varunkumar.vercel.app',
   jobTitle: 'Software Developer & AI Security Practitioner',
   worksFor: {
     '@type': 'Organization',
