@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'motion/react';
 import { MapPin, Calendar } from 'lucide-react';
 import { experiences } from '@/lib/data';
+import { RevealOnScroll } from './ui/RevealOnScroll';
 import type { Experience } from '@/lib/types';
 
 function TimelineItem({
@@ -19,42 +20,50 @@ function TimelineItem({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, x: -20 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+      animate={
+        isInView ? { opacity: 1, clipPath: 'inset(0 0 0% 0)' } : {}
+      }
       transition={{
-        duration: 0.6,
-        delay: index * 0.12,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 0.7,
+        delay: index * 0.15,
+        ease: [0.16, 1, 0.3, 1],
       }}
       className="relative pl-10 md:pl-14 pb-12 last:pb-0"
     >
       {/* Dot */}
       <motion.div
         className="absolute left-[6px] md:left-[14px] top-1 w-3 h-3 rounded-full z-10"
-        style={{ background: 'var(--accent)' }}
+        style={{
+          background: 'var(--accent)',
+          boxShadow: '0 0 12px var(--accent-glow)',
+        }}
         initial={{ scale: 0 }}
         animate={isInView ? { scale: 1 } : {}}
-        transition={{ duration: 0.4, delay: index * 0.12 + 0.2 }}
+        transition={{ duration: 0.4, delay: index * 0.15 + 0.2 }}
       />
 
       {/* Content */}
       <div className="card">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
           <div>
             <h3
-              className="text-lg font-bold"
-              style={{ color: 'var(--text-primary)' }}
+              className="text-2xl md:text-3xl font-bold tracking-tight"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
             >
               {experience.company}
             </h3>
             <p
-              className="text-sm font-medium"
+              className="text-sm font-medium mt-1"
               style={{ color: 'var(--accent)' }}
             >
               {experience.role}
             </p>
           </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+          <div className="flex items-center gap-4 text-xs shrink-0" style={{ color: 'var(--text-tertiary)' }}>
             <span className="flex items-center gap-1">
               <Calendar size={12} />
               {experience.period}
@@ -101,23 +110,22 @@ export default function ExperienceSection() {
   return (
     <section id="work" className="py-24 md:py-32" aria-label="Experience">
       <div className="section-container">
-        <motion.div
-          ref={sectionRef}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="section-label">Experience</p>
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-16 max-w-2xl"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Where I&apos;ve been building.
-          </h2>
-        </motion.div>
+        <div ref={sectionRef}>
+          <RevealOnScroll direction="left">
+            <span className="section-label">01 — Experience</span>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2
+              className="text-3xl md:text-5xl font-bold mb-16 max-w-2xl"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Where I&apos;ve been building.
+            </h2>
+          </RevealOnScroll>
+        </div>
 
         <div ref={containerRef} className="relative">
           {/* Static timeline background line */}
@@ -129,6 +137,7 @@ export default function ExperienceSection() {
             style={{
               background: 'var(--accent)',
               height: lineHeight,
+              boxShadow: '0 0 8px var(--accent-glow)',
             }}
           />
 

@@ -4,6 +4,8 @@ import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Mail, Phone, ArrowUpRight, BookOpen } from 'lucide-react';
 import { socialLinks } from '@/lib/data';
+import { RevealOnScroll } from './ui/RevealOnScroll';
+import { BackgroundBeams } from './ui/BackgroundBeams';
 
 function GithubIcon({ size = 20 }: { size?: number }) {
   return (
@@ -46,42 +48,52 @@ export default function Contact() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="contact" className="py-24 md:py-32" aria-label="Contact">
-      <div className="section-container">
+    <section
+      id="contact"
+      className="py-24 md:py-32 relative overflow-hidden"
+      aria-label="Contact"
+    >
+      {/* Background Beams */}
+      <BackgroundBeams />
+
+      <div className="section-container relative z-10">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-2xl mx-auto text-center"
         >
-          <p className="section-label justify-center">Contact</p>
-          <h2
-            className="text-3xl md:text-5xl font-bold mb-6"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Let&apos;s Build Something{' '}
-            <span style={{ color: 'var(--accent)' }}>Secure.</span>
-          </h2>
-          <p
-            className="text-base md:text-lg mb-12"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Always open to interesting projects, collaborations, and security
-            challenges. Reach out through any of these channels.
-          </p>
+          <RevealOnScroll direction="up">
+            <p className="section-label justify-center">08 — Contact</p>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2
+              className="text-3xl md:text-5xl font-bold mb-6"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Let&apos;s Build Something{' '}
+              <span style={{ color: 'var(--accent)' }}>Secure.</span>
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.15}>
+            <p
+              className="text-base md:text-lg mb-12"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Always open to interesting projects, collaborations, and security
+              challenges. Reach out through any of these channels.
+            </p>
+          </RevealOnScroll>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, clipPath: 'inset(100% 0 0 0)' }}
+          animate={isInView ? { opacity: 1, clipPath: 'inset(0 0 0 0)' } : {}}
           transition={{
             duration: 0.6,
-            delay: 0.2,
-            ease: [0.22, 1, 0.36, 1],
+            delay: 0.25,
+            ease: [0.16, 1, 0.3, 1],
           }}
           className="max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
@@ -101,17 +113,32 @@ export default function Contact() {
                     ? undefined
                     : 'noopener noreferrer'
                 }
-                initial={{ opacity: 0, y: 16 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+                animate={
+                  isInView
+                    ? { opacity: 1, clipPath: 'inset(0 0 0 0)' }
+                    : {}
+                }
                 transition={{
                   duration: 0.5,
                   delay: 0.3 + i * 0.08,
-                  ease: [0.22, 1, 0.36, 1],
+                  ease: [0.16, 1, 0.3, 1],
                 }}
                 className="glass-card flex items-center gap-4 group"
                 style={{ textDecoration: 'none' }}
+                whileHover={{
+                  scale: 1.03,
+                }}
+                whileTap={{ scale: 0.98 }}
               >
-                {Icon && <Icon size={20} />}
+                {Icon && (
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                  >
+                    <Icon size={20} />
+                  </motion.div>
+                )}
                 <div className="flex-1 min-w-0">
                   <p
                     className="text-xs uppercase tracking-wider font-semibold mb-0.5"

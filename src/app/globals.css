@@ -111,6 +111,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide default cursor on desktop (custom cursor replaces it) */
+@media (hover: hover) {
+  * {
+    cursor: none !important;
+  }
+}
+
 /* ─── Selection ─── */
 ::selection {
   background: var(--accent-muted);
@@ -442,4 +449,44 @@ button:focus-visible {
 html.dark,
 html:not(.dark) {
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── Marquee animation ─── */
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Animated nav underline ─── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--text-primary) !important;
 }

@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { GraduationCap } from 'lucide-react';
 import { education } from '@/lib/data';
+import { RevealOnScroll } from './ui/RevealOnScroll';
 
 export default function Education() {
   const ref = useRef(null);
@@ -12,42 +13,51 @@ export default function Education() {
   return (
     <section id="education" className="py-24 md:py-32" aria-label="Education">
       <div className="section-container">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="section-label">Education</p>
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-16 max-w-2xl"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Academic foundation.
-          </h2>
-        </motion.div>
+        <div ref={ref}>
+          <RevealOnScroll direction="left">
+            <span className="section-label">07 — Education</span>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2
+              className="text-3xl md:text-5xl font-bold mb-16 max-w-2xl"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Academic foundation.
+            </h2>
+          </RevealOnScroll>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {education.map((edu, i) => (
             <motion.div
               key={edu.id}
-              initial={{ opacity: 0, y: 24 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, clipPath: 'inset(100% 0 0 0)' }}
+              animate={
+                isInView
+                  ? { opacity: 1, clipPath: 'inset(0 0 0 0)' }
+                  : {}
+              }
               transition={{
                 duration: 0.6,
-                delay: i * 0.1,
-                ease: [0.22, 1, 0.36, 1],
+                delay: 0.15 + i * 0.1,
+                ease: [0.16, 1, 0.3, 1],
               }}
-              className="card"
+              className="card group"
+              whileHover={{ scale: 1.02 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <GraduationCap
-                  size={18}
-                  style={{ color: 'var(--accent)' }}
-                />
+                <motion.div
+                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                >
+                  <GraduationCap
+                    size={18}
+                    style={{ color: 'var(--accent)' }}
+                  />
+                </motion.div>
                 <span
                   className="text-xs font-medium"
                   style={{ color: 'var(--text-tertiary)' }}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { Instrument_Serif } from 'next/font/google';
 import { ThemeProvider } from './providers';
+import { ClientLayout } from '@/components/ClientLayout';
 import './globals.css';
 
 const geistSans = Geist({
@@ -102,10 +103,12 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <a href="#main-content" className="skip-to-content">
-            Skip to content
-          </a>
-          {children}
+          <ClientLayout>
+            <a href="#main-content" className="skip-to-content">
+              Skip to content
+            </a>
+            {children}
+          </ClientLayout>
         </ThemeProvider>
       </body>
     </html>

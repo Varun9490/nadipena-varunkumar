@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from 'motion/react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -13,7 +16,12 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main id="main-content">
+      <motion.main
+        id="main-content"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
+      >
         <Hero />
         <Experience />
         <Skills />
@@ -22,7 +30,7 @@ export default function Home() {
         <Certifications />
         <Education />
         <Contact />
-      </main>
+      </motion.main>
       <Footer />
     </>
   );

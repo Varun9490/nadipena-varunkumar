@@ -9,6 +9,8 @@ import {
 } from 'motion/react';
 import { ExternalLink } from 'lucide-react';
 import { projects } from '@/lib/data';
+import { RevealOnScroll } from './ui/RevealOnScroll';
+import { GlowingCard } from './ui/GlowingCard';
 import type { Project } from '@/lib/types';
 
 function GithubIcon({ size = 18 }: { size?: number }) {
@@ -28,9 +30,11 @@ function GithubIcon({ size = 18 }: { size?: number }) {
 function ProjectCard({
   project,
   index,
+  isFeatured,
 }: {
   project: Project;
   index: number;
+  isFeatured?: boolean;
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
@@ -38,8 +42,8 @@ function ProjectCard({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const rotateX = useTransform(y, [-150, 150], [6, -6]);
-  const rotateY = useTransform(x, [-150, 150], [-6, 6]);
+  const rotateX = useTransform(y, [-150, 150], [4, -4]);
+  const rotateY = useTransform(x, [-150, 150], [-4, 4]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -57,133 +61,144 @@ function ProjectCard({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 0, clipPath: 'inset(100% 0 0 0)' }}
+      animate={
+        isInView ? { opacity: 1, clipPath: 'inset(0 0 0 0)' } : {}
+      }
       transition={{
         duration: 0.6,
         delay: index * 0.12,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.16, 1, 0.3, 1],
       }}
       style={{ perspective: 800 }}
+      className={isFeatured ? 'md:col-span-2 lg:col-span-2' : ''}
     >
-      <motion.article
-        className="glass-card h-full flex flex-col"
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
-        }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        whileHover={{ scale: 1.02, y: -4 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      >
-        {/* Header */}
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h3
-              className="text-xl font-bold"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              {project.title}
-            </h3>
-            <p
-              className="text-xs mt-1"
-              style={{ color: 'var(--text-tertiary)' }}
-            >
-              {project.period}
-            </p>
+      <GlowingCard className="h-full rounded-2xl">
+        <motion.article
+          className="glass-card h-full flex flex-col"
+          style={{
+            rotateX,
+            rotateY,
+            transformStyle: 'preserve-3d',
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <h3
+                className="text-xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {project.title}
+              </h3>
+              <p
+                className="text-xs mt-1"
+                style={{ color: 'var(--text-tertiary)' }}
+              >
+                {project.period}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                  style={{ color: 'var(--accent)' }}
+                  aria-label={`View ${project.title} live demo`}
+                >
+                  <ExternalLink size={16} />
+                </a>
+              )}
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                style={{ color: 'var(--text-tertiary)' }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = 'var(--text-primary)')
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = 'var(--text-tertiary)')
+                }
+                aria-label={`View ${project.title} on GitHub`}
+              >
+                <GithubIcon size={18} />
+              </a>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            {project.liveUrl && (
+
+          {/* Description */}
+          <p
+            className="text-sm leading-relaxed mb-4"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            {project.description}
+          </p>
+
+          {/* Tech Stack Pills */}
+          <div className="flex flex-wrap gap-1.5 mb-5">
+            {project.techStack.map((tech) => (
+              <motion.span
+                key={tech}
+                className="skill-pill"
+                style={{ fontSize: '0.7rem' }}
+                whileHover={{
+                  scale: 1.08,
+                  borderColor: 'var(--accent)',
+                  color: 'var(--accent)',
+                }}
+                transition={{ duration: 0.15 }}
+              >
+                {tech}
+              </motion.span>
+            ))}
+          </div>
+
+          {/* Highlights */}
+          <ul className="space-y-2 mt-auto">
+            {project.highlights.slice(0, isFeatured ? 5 : 3).map((item, i) => (
+              <li
+                key={i}
+                className="text-sm leading-relaxed flex items-start gap-2"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <span
+                  className="mt-2 w-1 h-1 rounded-full shrink-0"
+                  style={{ background: 'var(--accent)' }}
+                />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          {/* Live badge */}
+          {project.liveUrl && (
+            <div className="mt-5 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                className="inline-flex items-center gap-2 text-xs font-semibold transition-all duration-200 hover:gap-3"
                 style={{ color: 'var(--accent)' }}
-                aria-label={`View ${project.title} live demo`}
               >
-                <ExternalLink size={16} />
+                <span
+                  className="w-2 h-2 rounded-full animate-pulse"
+                  style={{ background: '#22c55e' }}
+                />
+                View Live Demo
+                <ExternalLink size={12} />
               </a>
-            )}
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
-              style={{ color: 'var(--text-tertiary)' }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = 'var(--text-primary)')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = 'var(--text-tertiary)')
-              }
-              aria-label={`View ${project.title} on GitHub`}
-            >
-              <GithubIcon size={18} />
-            </a>
-          </div>
-        </div>
-
-        {/* Description */}
-        <p
-          className="text-sm leading-relaxed mb-4"
-          style={{ color: 'var(--text-secondary)' }}
-        >
-          {project.description}
-        </p>
-
-        {/* Tech Stack Pills */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.techStack.map((tech) => (
-            <span
-              key={tech}
-              className="skill-pill"
-              style={{ fontSize: '0.7rem' }}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Highlights */}
-        <ul className="space-y-2 mt-auto">
-          {project.highlights.map((item, i) => (
-            <li
-              key={i}
-              className="text-sm leading-relaxed flex items-start gap-2"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              <span
-                className="mt-2 w-1 h-1 rounded-full shrink-0"
-                style={{ background: 'var(--accent)' }}
-              />
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        {/* Live badge */}
-        {project.liveUrl && (
-          <div className="mt-5 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-semibold transition-all duration-200 hover:gap-3"
-              style={{ color: 'var(--accent)' }}
-            >
-              <span
-                className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: '#22c55e' }}
-              />
-              View Live Demo
-              <ExternalLink size={12} />
-            </a>
-          </div>
-        )}
-      </motion.article>
+            </div>
+          )}
+        </motion.article>
+      </GlowingCard>
     </motion.div>
   );
 }
@@ -195,33 +210,40 @@ export default function Projects() {
   return (
     <section id="projects" className="py-24 md:py-32" aria-label="Projects">
       <div className="section-container">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="section-label">Projects</p>
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-6 max-w-2xl"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Things I&apos;ve built.
-          </h2>
-          <p
-            className="text-base mb-16 max-w-lg"
-            style={{ color: 'var(--text-tertiary)' }}
-          >
-            Security-focused and full-stack applications — each solving real-world problems.
-          </p>
-        </motion.div>
+        <div ref={ref}>
+          <RevealOnScroll direction="left">
+            <span className="section-label">05 — Projects</span>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2
+              className="text-3xl md:text-5xl font-bold mb-6 max-w-2xl"
+              style={{
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Things I&apos;ve built.
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.15}>
+            <p
+              className="text-base mb-16 max-w-lg"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
+              Security-focused and full-stack applications — each solving
+              real-world problems.
+            </p>
+          </RevealOnScroll>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={i}
+              isFeatured={i === 0}
+            />
           ))}
         </div>
       </div>

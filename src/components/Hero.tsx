@@ -5,16 +5,26 @@ import { motion } from 'motion/react';
 import { ArrowDown, Download, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { Spotlight } from './ui/Spotlight';
+import { SplitText } from './ui/SplitText';
+import { RotatingText } from './ui/RotatingText';
+import { ScrollVelocity } from './ui/ScrollVelocity';
 
 const Scene3D = dynamic(() => import('./Scene3D'), {
   ssr: false,
   loading: () => null,
 });
 
+const techStack = [
+  'Next.js', 'Python', 'LangChain', 'React', 'Node.js', 'AWS',
+  'Burp Suite', 'Docker', 'PostgreSQL', 'TypeScript', 'Django',
+  'Azure', 'OWASP', 'Gemini API', 'MongoDB', 'Framer Motion',
+];
+
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex flex-col overflow-hidden"
       aria-label="Hero"
     >
       {/* 3D Background */}
@@ -24,6 +34,9 @@ export default function Hero() {
 
       {/* Mesh Gradient Background (fallback layer) */}
       <div className="mesh-gradient" aria-hidden="true" />
+
+      {/* Spotlight cursor-follow glow */}
+      <Spotlight size={500} />
 
       {/* Grain Texture */}
       <svg className="grain-overlay" aria-hidden="true">
@@ -39,50 +52,40 @@ export default function Hero() {
         <rect width="100%" height="100%" filter="url(#grain)" />
       </svg>
 
-      <div className="section-container relative z-10 w-full pt-24 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div className="section-container relative z-10 w-full pt-24 pb-16 flex-1 flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
           {/* Left — Name, Heading & CTAs */}
           <div className="lg:col-span-7">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 2.4 }}
               className="text-lg md:text-xl font-medium mb-2"
               style={{ color: 'var(--text-secondary)' }}
             >
               Hi, I&apos;m
             </motion.p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+            <div
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight mb-2"
               style={{
                 fontFamily: 'var(--font-display)',
                 color: 'var(--text-primary)',
               }}
             >
-              <span style={{ color: 'var(--accent)' }}>Nadipena</span>{' '}
-              Varunkumar
-            </motion.h1>
+              <SplitText
+                delay={2.5}
+                staggerDelay={0.08}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight font-normal"
+              >
+                Nadipena Varunkumar
+              </SplitText>
+            </div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.18,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 2.9 }}
               className="text-2xl sm:text-3xl md:text-4xl leading-[1.15] tracking-tight mb-6"
               style={{
                 fontFamily: 'var(--font-display)',
@@ -90,33 +93,37 @@ export default function Hero() {
                 opacity: 0.85,
               }}
             >
-              Building Secure Systems.{' '}
-              <br className="hidden sm:block" />
-              Shipping Intelligent Products.
-            </motion.h2>
+              <RotatingText
+                words={[
+                  'Security Researcher',
+                  'Bug Bounty Hunter',
+                  'Full-Stack Developer',
+                  'SaaS Builder',
+                  'AI Security Specialist',
+                ]}
+                interval={2500}
+                className="text-2xl sm:text-3xl md:text-4xl"
+              />
+            </motion.div>
 
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
+              animate={{ opacity: 1, clipPath: 'inset(0 0% 0 0)' }}
               transition={{
                 duration: 0.8,
-                delay: 0.25,
+                delay: 3.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="text-base md:text-lg mb-10 max-w-xl"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Security Researcher · Full-Stack Developer · Bug Bounty Hunter
+              Building Secure Systems. Shipping Intelligent Products.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.35,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 3.3 }}
               className="flex flex-wrap gap-4"
             >
               <a
@@ -168,12 +175,11 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{
               duration: 0.8,
-              delay: 0.3,
+              delay: 3.0,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            {/* Avatar Placeholder */}
-            {/* TODO: Replace with <Image src="/profile.jpg" alt="Nadipena Varunkumar" width={140} height={140} className="rounded-full object-cover" /> */}
+            {/* Avatar */}
             <div className="avatar-ring" style={{ width: '140px', height: '140px' }}>
               <Image
                 src="/profile.jpg"
@@ -193,22 +199,55 @@ export default function Hero() {
                 'Bug Bounty',
                 'Cloud Infra',
                 'AI/ML',
-              ].map((tag) => (
-                <span key={tag} className="skill-pill glass-pill">
+              ].map((tag, i) => (
+                <motion.span
+                  key={tag}
+                  className="skill-pill glass-pill"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: 3.2 + i * 0.08,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
                   {tag}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>
         </div>
       </div>
 
+      {/* Tech Stack Marquee — below fold */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3.5, duration: 0.8 }}
+        className="relative z-10 pb-8"
+      >
+        <ScrollVelocity speed={25} direction="left" className="py-4">
+          {techStack.map((tech) => (
+            <span
+              key={tech}
+              className="text-sm font-medium whitespace-nowrap px-6"
+              style={{
+                color: 'var(--text-tertiary)',
+                opacity: 0.6,
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+        </ScrollVelocity>
+      </motion.div>
+
       {/* Scroll Indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
+        transition={{ delay: 3.8, duration: 0.6 }}
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}

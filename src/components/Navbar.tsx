@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { navLinks } from '@/lib/data';
@@ -9,14 +9,56 @@ import { navLinks } from '@/lib/data';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const { theme, setTheme } = useTheme();
+  const { scrollY } = useScroll();
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Hide on scroll down, show on scroll up
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const delta = latest - lastScrollY.current;
+    setScrolled(latest > 20);
+
+    if (latest > 80) {
+      setHidden(delta > 5);
+    } else {
+      setHidden(false);
+    }
+
+    lastScrollY.current = latest;
+  });
+
+  // Track active section with IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navLinks.map((link) => link.href.replace('#', ''));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(id);
+            }
+          });
+        },
+        { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+      );
+
+      observer.observe(element);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((obs) => obs.disconnect());
   }, []);
 
   useEffect(() => {
@@ -36,8 +78,11 @@ export default function Navbar() {
     <>
       <motion.nav
         initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        animate={{
+          y: hidden ? -80 : 0,
+          opacity: hidden ? 0 : 1,
+        }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="fixed top-0 left-0 right-0 z-50"
         role="navigation"
         aria-label="Main navigation"
@@ -90,14 +135,23 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium transition-colors duration-200"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className={`nav-link text-sm font-medium transition-colors duration-200 ${
+                    activeSection === link.href.replace('#', '') ? 'active' : ''
+                  }`}
+                  style={{
+                    color:
+                      activeSection === link.href.replace('#', '')
+                        ? 'var(--text-primary)'
+                        : 'var(--text-secondary)',
+                  }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.color = 'var(--text-primary)')
                   }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = 'var(--text-secondary)')
-                  }
+                  onMouseLeave={(e) => {
+                    if (activeSection !== link.href.replace('#', '')) {
+                      e.currentTarget.style.color = 'var(--text-secondary)';
+                    }
+                  }}
                 >
                   {link.label}
                 </a>
@@ -106,7 +160,7 @@ export default function Navbar() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="p-2 rounded-lg transition-colors duration-200 cursor-pointer"
+                  className="p-2 rounded-lg transition-colors duration-200"
                   style={{
                     color: 'var(--text-secondary)',
                     background: 'transparent',
@@ -131,7 +185,7 @@ export default function Navbar() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="p-2 rounded-lg cursor-pointer"
+                  className="p-2 rounded-lg"
                   style={{ color: 'var(--text-secondary)' }}
                   aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                 >
@@ -140,7 +194,7 @@ export default function Navbar() {
               )}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-lg cursor-pointer"
+                className="p-2 rounded-lg"
                 style={{ color: 'var(--text-primary)' }}
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isOpen}
@@ -179,7 +233,12 @@ export default function Navbar() {
                   }}
                   onClick={() => setIsOpen(false)}
                   className="text-3xl font-medium"
-                  style={{ color: 'var(--text-primary)' }}
+                  style={{
+                    color:
+                      activeSection === link.href.replace('#', '')
+                        ? 'var(--accent)'
+                        : 'var(--text-primary)',
+                  }}
                 >
                   {link.label}
                 </motion.a>
