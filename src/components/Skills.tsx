@@ -82,7 +82,7 @@ function SkillPill({ skill }: { skill: string }) {
 
 export default function Skills() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   return (
     <section id="skills" className="py-24 md:py-32" aria-label="Skills">

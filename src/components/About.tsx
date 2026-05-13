@@ -59,7 +59,7 @@ function AnimatedNumber({
 
 export default function About() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   // Split bio into sentences for staggered reveal
   const bioSentences = bioText.split('. ').map((s, i, arr) =>

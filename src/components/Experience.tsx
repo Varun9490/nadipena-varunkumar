@@ -15,7 +15,7 @@ function TimelineItem({
   index: number;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   return (
     <motion.div
@@ -98,7 +98,7 @@ function TimelineItem({
 export default function ExperienceSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-10% 0px' });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,

@@ -10,7 +10,7 @@ import { InfiniteMarquee } from './ui/InfiniteMarquee';
 
 export default function Certifications() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   return (
     <section

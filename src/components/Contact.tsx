@@ -45,7 +45,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
 
 export default function Contact() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   return (
     <section

@@ -37,7 +37,7 @@ function ProjectCard({
   isFeatured?: boolean;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -205,7 +205,7 @@ function ProjectCard({
 
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
   return (
     <section id="projects" className="py-24 md:py-32" aria-label="Projects">

@@ -138,61 +138,61 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
-  "id": "plagdetect",
-  "title": "PlagDetect",
-  "period": "Jan 2026 – Present",
-  "description": "A full-stack plagiarism detection platform and Chrome Extension for instant plagiarism detection. Features real-time content scanning, similarity analysis, and AI-assisted tools for teachers and researchers.",
-  "techStack": ["Next.js", "PostgreSQL", "Gemini API", "LangGraph", "RAG", "Guardrails AI", "Serper API"],
-  "highlights": [
-    "Multi-modal plagiarism detection (text, code, images) via LangGraph RAG pipelines — 60% reduction in manual review",
-    "Progressive Web App (PWA) + Chrome Extension (Manifest V3) for instant scanning",
-    "Integration with live websites using Chrome Extension for real-time detection",
-    "Serper API for real-time data fetching and similarity checks",
-    "Gemini API for code plagiarism detection and analysis",
-    "AI-generated plagiarism detection for full website source code — helpful for teachers and researchers",
-    "Login-based system with detailed reports and history tracking",
-    "Guardrails AI prompt injection defense for secure operations"
-  ],
-  "githubUrl": "https://github.com/Varun9490/cursors-2k26",
-  "liveUrl": "https://cursors-2k26.vercel.app/"
-},
+    "id": "plagdetect",
+    "title": "PlagDetect",
+    "period": "Jan 2026 – Present",
+    "description": "A full-stack plagiarism detection platform and Chrome Extension for instant plagiarism detection. Features real-time content scanning, similarity analysis, and AI-assisted tools for teachers and researchers.",
+    "techStack": ["Next.js", "PostgreSQL", "Gemini API", "LangGraph", "RAG", "Guardrails AI", "Serper API"],
+    "highlights": [
+      "Multi-modal plagiarism detection (text, code, images) via LangGraph RAG pipelines — 60% reduction in manual review",
+      "Progressive Web App (PWA) + Chrome Extension (Manifest V3) for instant scanning",
+      "Integration with live websites using Chrome Extension for real-time detection",
+      "Serper API for real-time data fetching and similarity checks",
+      "Gemini API for code plagiarism detection and analysis",
+      "AI-generated plagiarism detection for full website source code — helpful for teachers and researchers",
+      "Login-based system with detailed reports and history tracking",
+      "Guardrails AI prompt injection defense for secure operations"
+    ],
+    "githubUrl": "https://github.com/Varun9490/cursors-2k26",
+    "liveUrl": "https://cursors-2k26.vercel.app/"
+  },
   {
-  "id": "storycraft",
-  "title": "StoryCraft",
-  "period": "Mar 2025",
-  "description": "AI-powered story generation and artisan marketplace platform with interactive storytelling, dynamic content generation, and AI-assisted seller tools. Built as a Progressive Web App for seamless cross-device experience.",
-  "techStack": ["Next.js", "MongoDB", "Socket.IO", "LangChain", "LangGraph", "RAG"],
-  "highlights": [
-    "AI-powered interactive storytelling with dynamic content generation via multi-agent RAG",
-    "Progressive Web App (PWA) for offline support and mobile-first experience",
-    "Price prediction using Serper API for artisan products",
-    "Chatbot for NLP-based user interactions",
-    "Image analysis for direct product description",
-    "Visual search from user-uploaded images",
-    "AI-generated FAQ creation for products",
-    "Seller and user chatbots for seamless communication",
-    "AI-assisted seller dashboard and analytics for artisans"
-  ],
-  "githubUrl": "https://github.com/Varun9490/StoryCraft",
-  "liveUrl": "https://story-craft-one.vercel.app/"
-},
+    "id": "storycraft",
+    "title": "StoryCraft",
+    "period": "Mar 2025",
+    "description": "AI-powered story generation and artisan marketplace platform with interactive storytelling, dynamic content generation, and AI-assisted seller tools. Built as a Progressive Web App for seamless cross-device experience.",
+    "techStack": ["Next.js", "MongoDB", "Socket.IO", "LangChain", "LangGraph", "RAG"],
+    "highlights": [
+      "AI-powered interactive storytelling with dynamic content generation via multi-agent RAG",
+      "Progressive Web App (PWA) for offline support and mobile-first experience",
+      "Price prediction using Serper API for artisan products",
+      "Chatbot for NLP-based user interactions",
+      "Image analysis for direct product description",
+      "Visual search from user-uploaded images",
+      "AI-generated FAQ creation for products",
+      "Seller and user chatbots for seamless communication",
+      "AI-assisted seller dashboard and analytics for artisans"
+    ],
+    "githubUrl": "https://github.com/Varun9490/StoryCraft",
+    "liveUrl": "https://story-craft-one.vercel.app/"
+  },
   {
-  "id": "restobar",
-  "title": "RestoBar",
-  "period": "Dec 2024",
-  "description": "Frontend Next.js coffee shop e-commerce website with product catalog, cart, animations, and payment flow UI.",
-  "techStack": ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Radix UI"],
-  "highlights": [
-    "Interactive product catalog with smooth animations",
-    "Frontend cart system with dynamic updates",
-    "Payment flow UI with responsive design",
-    "Modern Tailwind CSS styling for a polished look",
-    "Framer Motion animations for engaging user experience",
-    "Radix UI components for accessibility and customization"
-  ],
-  "githubUrl": "https://github.com/Varun9490/restoBar",
-  "liveUrl": "https://resto-bar-alpha.vercel.app/"
-},
+    "id": "restobar",
+    "title": "RestoBar",
+    "period": "Dec 2024",
+    "description": "Frontend Next.js coffee shop e-commerce website with product catalog, cart, animations, and payment flow UI.",
+    "techStack": ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Radix UI"],
+    "highlights": [
+      "Interactive product catalog with smooth animations",
+      "Frontend cart system with dynamic updates",
+      "Payment flow UI with responsive design",
+      "Modern Tailwind CSS styling for a polished look",
+      "Framer Motion animations for engaging user experience",
+      "Radix UI components for accessibility and customization"
+    ],
+    "githubUrl": "https://github.com/Varun9490/restoBar",
+    "liveUrl": "https://resto-bar-alpha.vercel.app/"
+  },
 ];
 
 export const certifications: Certification[] = [
@@ -247,4 +247,4 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const bioText =
-  'Computer Science student, Security Researcher, and Full-Stack Developer with strong expertise in web security, bug bounty hunting, and scalable application development. Currently serving as Student Mentor at the AITAM Security Club and former Tech Lead for Avishkaar Season 3. First-place hackathon winner across 100+ teams. APIsec Certified Practitioner with a focus on building secure products that bridge security with development. Currently interning at Kroll Inc., Hyderabad.';
+  'information technology student, Security Researcher, and Full-Stack Developer with strong expertise in web security, bug bounty hunting, and scalable application development. Currently serving as Student Mentor at the AITAM Security Club and former Tech Lead for Avishkaar Season 3. First-place hackathon winner across 100+ teams. APIsec Certified Practitioner with a focus on building secure products that bridge security with development. Currently interning at Kroll Inc., Hyderabad.';
