@@ -13,6 +13,20 @@ import { RevealOnScroll } from './ui/RevealOnScroll';
 import { GlowingCard } from './ui/GlowingCard';
 import type { Project } from '@/lib/types';
 
+function openLiveDemo(event: React.MouseEvent<HTMLAnchorElement>, url: string) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const liveDemo = window.open(url, '_blank', 'noopener,noreferrer');
+
+  if (liveDemo) {
+    liveDemo.opener = null;
+    return;
+  }
+
+  window.location.href = url;
+}
+
 function GithubIcon({ size = 18 }: { size?: number }) {
   return (
     <svg
@@ -44,6 +58,7 @@ function ProjectCard({
 
   const rotateX = useTransform(y, [-150, 150], [4, -4]);
   const rotateY = useTransform(x, [-150, 150], [-4, 4]);
+  const liveUrl = project.liveUrl;
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -87,7 +102,7 @@ function ProjectCard({
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
           {/* Header */}
-          <div className="flex items-start justify-between mb-3">
+          <div className="flex items-start justify-between mb-3" style={{ transform: 'translateZ(50px)' }}>
             <div>
               <h3
                 className="text-xl font-bold"
@@ -103,13 +118,14 @@ function ProjectCard({
               </p>
             </div>
             <div className="flex items-center gap-2">
-              {project.liveUrl && (
+              {liveUrl && (
                 <a
-                  href={project.liveUrl}
+                  href={liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110 relative z-20"
                   style={{ color: 'var(--accent)' }}
+                  onClick={(event) => openLiveDemo(event, liveUrl)}
                   aria-label={`View ${project.title} live demo`}
                 >
                   <ExternalLink size={16} />
@@ -119,7 +135,7 @@ function ProjectCard({
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                className="p-2 rounded-lg transition-all duration-200 hover:scale-110 relative z-20"
                 style={{ color: 'var(--text-tertiary)' }}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.color = 'var(--text-primary)')
@@ -179,21 +195,28 @@ function ProjectCard({
           </ul>
 
           {/* Live badge */}
-          {project.liveUrl && (
-            <div className="mt-5 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
+          {liveUrl && (
+            <div 
+              className="mt-5 pt-4 relative z-20" 
+              style={{ 
+                borderTop: '1px solid var(--border)',
+                transform: 'translateZ(50px)'
+              }}
+            >
               <a
-                href={project.liveUrl}
+                href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-semibold transition-all duration-200 hover:gap-3"
                 style={{ color: 'var(--accent)' }}
+                onClick={(event) => openLiveDemo(event, liveUrl)}
               >
                 <span
-                  className="w-2 h-2 rounded-full animate-pulse"
+                  className="w-2 h-2 rounded-full animate-pulse shrink-0"
                   style={{ background: '#22c55e' }}
                 />
-                View Live Demo
-                <ExternalLink size={12} />
+                <span>View Live Demo</span>
+                <ExternalLink size={12} className="shrink-0" />
               </a>
             </div>
           )}

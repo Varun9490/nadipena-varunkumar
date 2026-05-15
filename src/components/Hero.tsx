@@ -144,7 +144,8 @@ export default function Hero() {
                 <ExternalLink size={14} />
               </a>
               <a
-                href="/resume.pdf"
+                href="/NADIPENA_VARUNKUMAR.pdf"
+                download="NADIPENA_VARUNKUMAR.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
