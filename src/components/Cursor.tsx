@@ -1,14 +1,35 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
+
+const DESKTOP_CURSOR_QUERY = '(hover: hover) and (pointer: fine) and (min-width: 1025px)';
+
+function subscribeToDesktopPointer(callback: () => void) {
+  if (typeof window === 'undefined') return () => {};
+
+  const mediaQuery = window.matchMedia(DESKTOP_CURSOR_QUERY);
+  mediaQuery.addEventListener('change', callback);
+
+  return () => {
+    mediaQuery.removeEventListener('change', callback);
+  };
+}
+
+function getDesktopPointerSnapshot() {
+  return typeof window !== 'undefined' && window.matchMedia(DESKTOP_CURSOR_QUERY).matches;
+}
 
 export default function Cursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(true);
+  const isDesktopPointer = useSyncExternalStore(
+    subscribeToDesktopPointer,
+    getDesktopPointerSnapshot,
+    () => false
+  );
 
   const springConfig = { damping: 28, stiffness: 400, mass: 0.5 };
   const ringX = useSpring(mouseX, springConfig);
@@ -18,13 +39,9 @@ export default function Cursor() {
   const handleMouseLeaveInteractive = useCallback(() => setIsHovering(false), []);
 
   useEffect(() => {
-    // Detect touch devices
-    const hasHover = window.matchMedia('(hover: hover)').matches;
-    if (!hasHover) {
-      setIsTouchDevice(true);
+    if (!isDesktopPointer) {
       return;
     }
-    setIsTouchDevice(false);
 
     const move = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -73,10 +90,16 @@ export default function Cursor() {
       });
       observer.disconnect();
     };
-  }, [mouseX, mouseY, handleMouseEnterInteractive, handleMouseLeaveInteractive]);
+  }, [
+    isDesktopPointer,
+    mouseX,
+    mouseY,
+    handleMouseEnterInteractive,
+    handleMouseLeaveInteractive,
+  ]);
 
-  // Render nothing on touch devices, but AFTER all hooks
-  if (isTouchDevice) return null;
+  // Render nothing on mobile and tablet widths, but after all hooks.
+  if (!isDesktopPointer) return null;
 
   return (
     <>

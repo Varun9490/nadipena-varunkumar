@@ -111,8 +111,8 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide default cursor on desktop (custom cursor replaces it) */
-@media (hover: hover) {
+/* Hide default cursor only when the desktop custom cursor is active */
+@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
   * {
     cursor: none !important;
   }
