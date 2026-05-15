@@ -195,7 +195,7 @@ function ProjectCard({
           </ul>
 
           {/* Live badge */}
-          {liveUrl && (
+          {/* {liveUrl && (
             <div 
               className="mt-5 pt-4 relative z-20" 
               style={{ 
@@ -219,7 +219,7 @@ function ProjectCard({
                 <ExternalLink size={12} className="shrink-0" />
               </a>
             </div>
-          )}
+          )} */}
         </motion.article>
       </GlowingCard>
     </motion.div>
